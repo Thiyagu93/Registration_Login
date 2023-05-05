@@ -22,14 +22,33 @@ button {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 20px;
+
 }
 
 .inputGroupFile01{
   position: relative;
 }
 
-.eye span {
+.eye i {
   position: absolute;
   margin-bottom: 38px;
+  cursor: pointer;
+}
+
+.eye1 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.inputGroupFile02{
+  position: relative;
+}
+
+.eye1 i {
+  position: absolute;
+  margin-bottom: 38px;
+  cursor: pointer;
 }
