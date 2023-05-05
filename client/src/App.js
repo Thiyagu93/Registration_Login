@@ -14,6 +14,7 @@ function App() {
   const [loginStatus, setLoginstatus] = useState("");
 
   const [visible, setVisible] = useState(true);
+  const [regvisible, setRegVisible] = useState(true);
 
   const register = () => {
     axios
@@ -54,15 +55,22 @@ function App() {
             setUsernameReg(e.target.value);
           }}
         />
-        <label>Password</label>
-        <input
-          class="form-control"
-          type="password"
-          placeholder="Password.."
-          onChange={(e) => {
-            setPasswordReg(e.target.value);
-          }}
-        />
+        <div>
+          <label>Password</label>
+          <input
+            class="form-control"
+            value={passwordReg}
+            type={regvisible ? "password" : "text"}
+            placeholder="Password.."
+            id="inputGroupFile02"
+            onChange={(e) => {
+              setPasswordReg(e.target.value);
+            }}
+          />
+          <div class="eye1"  onClick={() => setRegVisible(!regvisible)}>
+            <i>{regvisible ? <AiFillEyeInvisible /> : <AiFillEye />}</i>
+          </div>
+        </div>
         <br></br>
         <button onClick={register} class="btn btn-success mx-auto">
           SignUp
@@ -93,7 +101,7 @@ function App() {
           />
 
           <div class="eye" onClick={() => setVisible(!visible)}>
-            <span>{visible ? <AiFillEyeInvisible /> : <AiFillEye />}</span>
+            <i>{visible ? <AiFillEyeInvisible /> : <AiFillEye />}</i>
           </div>
         </div>
         <br></br>
