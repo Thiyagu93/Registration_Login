@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
@@ -15,6 +15,8 @@ function App() {
 
   const [visible, setVisible] = useState(true);
   const [regvisible, setRegVisible] = useState(true);
+
+  axios.defaults.withCredentials = true;
 
   const register = () => {
     axios
@@ -42,13 +44,21 @@ function App() {
       });
   };
 
+  useEffect(() => {
+    axios.get("http://localhost:3001/login").then((response) => {
+      if( response.data.loggedIn === true){
+        setLoginstatus(response.data.user[0].username)
+      }
+    });
+  }, []);
+
   return (
-    <div class=" container">
-      <div class="registration mx-auto ">
-        <h1 class="d-flex justify-content-center">Registration</h1>
+    <div className=" container">
+      <div className="registration mx-auto ">
+        <h1 className="d-flex justify-content-center">Registration</h1>
         <label>UserName</label>
         <input
-          class="form-control"
+          className="form-control"
           type="text"
           placeholder="UserName.."
           onChange={(e) => {
@@ -58,7 +68,7 @@ function App() {
         <div>
           <label>Password</label>
           <input
-            class="form-control"
+            className="form-control"
             value={passwordReg}
             type={regvisible ? "password" : "text"}
             placeholder="Password.."
@@ -67,30 +77,30 @@ function App() {
               setPasswordReg(e.target.value);
             }}
           />
-          <div class="eye1"  onClick={() => setRegVisible(!regvisible)}>
+          <div className="eye1" onClick={() => setRegVisible(!regvisible)}>
             <i>{regvisible ? <AiFillEyeInvisible /> : <AiFillEye />}</i>
           </div>
         </div>
         <br></br>
-        <button onClick={register} class="btn btn-success mx-auto">
+        <button onClick={register} className="btn btn-success mx-auto">
           SignUp
         </button>
       </div>
-      <div class="login mx-auto mt-2">
-        <h1 class="d-flex justify-content-center">LogIn</h1>
+      <div className="login mx-auto mt-2">
+        <h1 className="d-flex justify-content-center">LogIn</h1>
         <label>UserName</label>
         <input
-          class="form-control"
+          className="form-control"
           type="text"
           placeholder="UserName.."
           onChange={(e) => {
             setUsername(e.target.value);
           }}
         />
-        <div class="flex justify-between iten-center ">
+        <div className="flex justify-between iten-center ">
           <label>Password</label>
           <input
-            class="form-control "
+            className="form-control "
             value={password}
             type={visible ? "password" : "text"}
             placeholder="Password.."
@@ -100,17 +110,19 @@ function App() {
             }}
           />
 
-          <div class="eye" onClick={() => setVisible(!visible)}>
+          <div className="eye" onClick={() => setVisible(!visible)}>
             <i>{visible ? <AiFillEyeInvisible /> : <AiFillEye />}</i>
           </div>
         </div>
         <br></br>
-        <button onClick={login} class="btn btn-success  mx-auto">
+        <button onClick={login} className="btn btn-success  mx-auto">
           LogIn
         </button>
       </div>
       <br></br>
-      <h1 class=" mx-auto d-flex justify-content-center  ">{loginStatus}</h1>
+      <h1 className=" mx-auto d-flex justify-content-center  ">
+        {loginStatus}
+      </h1>
     </div>
   );
 }
