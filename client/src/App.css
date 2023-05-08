@@ -23,6 +23,7 @@ button {
   justify-content: flex-end;
   align-items: center;
   margin-right: 20px;
+  font-size: 18px;
 
 }
 
@@ -32,15 +33,16 @@ button {
 
 .eye i {
   position: absolute;
-  margin-bottom: 38px;
+  margin-bottom: 55px;
   cursor: pointer;
 }
 
-.eye1 {
+.eye1  {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-right: 20px;
+  font-size: 18px;
 }
 
 .inputGroupFile02{
@@ -49,6 +51,6 @@ button {
 
 .eye1 i {
   position: absolute;
-  margin-bottom: 38px;
+  margin-bottom: 55px;
   cursor: pointer;
 }

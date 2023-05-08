@@ -7,6 +7,7 @@ const saltRounds = 10;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 app.use(
@@ -55,13 +56,34 @@ app.post("/register", (req, res) => {
   });
 });
 
+const verifyJWT = (req, res, next) => {
+  const token = req.headers["x-axis-token"];
+
+  if (!token) {
+    res.send("hey, we need token ,please give it next time ");
+  } else {
+    jwt.verify(token, "jwtsecurity", (err, decoded) => {
+      if (err) {
+        res.send({ auth: false, message: "you are not authendicated" });
+      } else {
+        req.userId = decoded.id;
+        next();
+      }
+    });
+  }
+};
+
+app.get("/isUserAuth", verifyJWT, (req, res) => {
+  res.send("yes, you are authendicated congrats");
+});
+
 app.get("/login", (req, res) => {
   if (req.session.user) {
     res.send({ loggedIn: true, user: req.session.user });
   } else {
     res.send({ loggedIn: false });
   }
-}); 
+});
 
 app.post("/login", (req, res) => {
   const username = req.body.username;
@@ -78,21 +100,22 @@ app.post("/login", (req, res) => {
       if (result.length > 0) {
         bcrypt.compare(password, result[0].password, (err, response) => {
           if (response) {
+            const id = result[0].id;
+            const token = jwt.sign({ id }, "jwtsecurity", {
+              expiresIn: 300,
+            });
             req.session.user = result;
-            console.log(req.session.user);
-            res.send(result);
+            res.json({ auth: true, token: token, result: result });
           } else {
-            res.send({ message: "Wrong username and password" });
+            res.json({ auth: false, message: "wrong username and Password" });
           }
         });
       } else {
-        res.send({ message: "User Not Exist's" });
+        res.json({ auth: false, message: "User Not Exists" });
       }
     }
   );
 });
-
-
 
 app.listen(3001, () => {
   console.log("Server Connected");
